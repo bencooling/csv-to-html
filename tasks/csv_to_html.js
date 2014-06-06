@@ -2,9 +2,6 @@
  * grunt-csv-to-html
  * https://github.com/bencooling/csv-to-html
  *
- * For parsing csv regex pattern see: James Carr
- * blog.james-carr.org/2010/07/07/parsing-csv-files-with-nodejs
- *
  * For Array to Object see: KooiInc 
  * stackoverflow.com/questions/12199051/merge-two-arrays-of-keys-and-values-to-an-object-using-underscore
  * jsfiddle.net/KooiInc/DhzqM/
