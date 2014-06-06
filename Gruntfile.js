@@ -30,20 +30,9 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     csv_to_html: {
-      default_options: {
-        options: {
-        },
+      example: {
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!'
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/compiled.html': ['test/fixtures/data.csv', 'test/fixtures/tpl.mustache']
         }
       }
     },
