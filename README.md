@@ -1,6 +1,6 @@
 # grunt-csv-to-html
 
-> Grunt plugin that takes a HTML template, csv data file & compiles HTML
+> Grunt plugin that compiles HTML from a mustache template & csv data file
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
