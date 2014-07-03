@@ -1,5 +1,7 @@
 # grunt-csv-to-html
 
+[![NPM](https://nodei.co/npm/grunt-csv-to-html.png?downloads=true&stars=true)](https://nodei.co/npm/grunt-csv-to-html)
+
 > Grunt plugin that compiles HTML from a mustache template & csv data file
 
 ## Getting Started
