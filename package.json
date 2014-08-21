@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "mustache"              : "latest",
+    "handlebars"            : "latest",
     "csv"                   : "latest",
     "grunt-contrib-jshint"  : "latest",
     "grunt-contrib-clean"   : "latest",
@@ -44,6 +45,6 @@
     "grunt"                 : "~0.4.5"
   },
   "keywords": [
-    "gruntplugin", "csv", "mustache", "html"
+    "gruntplugin", "csv", "mustache", "handlebars", "html"
   ]
 }
