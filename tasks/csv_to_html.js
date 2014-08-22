@@ -2,6 +2,11 @@
  * grunt-csv-to-html
  * https://github.com/bencooling/csv-to-html
  *
+ * Accepts Mustache or Handlebars templates
+ * Register Handlebar helpers
+ * As source files have a template & data file that are distinguished by their extension, can configure accepted extenstions
+ * Configure csv parsing engine
+ * 
  * For Array to Object see: KooiInc 
  * stackoverflow.com/questions/12199051/merge-two-arrays-of-keys-and-values-to-an-object-using-underscore
  * jsfiddle.net/KooiInc/DhzqM/
@@ -14,41 +19,82 @@
 
 var mustache   = require('mustache')
   , Handlebars = require('handlebars')
+  , _          = require('underscore')
+  , util       = require('util') // TODO: remove for production
   , csv        = require('csv')
   ;
 
 module.exports = function(grunt) {
 
-  Array.prototype.toObject = function(values){
-    if (values){
-      if(!/array/i.test(values.constructor)){
-        throw new ReferenceError('[values] argument should be an Array');
-      }
-      if (values.length<this.length){
-        throw new RangeError('Imbalanced keys-values ratio: provide at least as much values as there are keys');
-      }
-    }    
-    values = values || this.map(function(v){return true;}); 
-    var some;
-    this .map(function(v){return [v,this.shift()];},values)
-         .map(function(v){this[v[0]]=v[1];},some = {});
-    return some;
-  };
+  grunt.registerMultiTask('csv_to_html', 'Grunt plugin that takes a HTML template, csv data file & compiles HTML', function(options) {
+    var done = this.async(),
+        options = this.options({
+          registerHelpers: false
+        , tpl: false
+        , data: false
+        , dest: false
+        , extensions : {
+          tpl: ["mustache", "html", "handlebars", "hbs"]
+        , data: ["csv"]
+        }
+        , csv : {
+            rowDelimiter : null
+          , delimiter : ','
+          , quote : '"'
+          , escape : '"'
+          , columns : null
+          , comment : ''
+          , objname : false
+          , trim : false
+          , ltrim : false
+          , rtrim : false
+          , auto_parse : false
+          }
+        })
+      , helpers = options.registerHelpers
+      ;
 
-    grunt.registerMultiTask('csv_to_html', 'Grunt plugin that takes a HTML template, csv data file & compiles HTML', function() {
-    var done = this.async();
+    // Register custom helpers
+    if (_.isArray(helpers) && helpers.length){
+      _.each(helpers, function(element, index, array){
+        var k = Object.keys(element).toString()
+          , v = element[k]
+          ;
+        Handlebars.registerHelper(k, v);
+      });
+    }
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       
       var html = ''
-        , pathData
-        , pathSource
-        , template
+        , data
+        , tpl
+        , output
+        , src
         ;
 
+      if (options.dest)
+        f.dest = options.dest;
+
+      f.src.map(function(filepath) {
+        var extension = _.last(filepath.split("."));
+        if (_.indexOf(options.extensions.data, extension) > -1)
+          data = filepath;
+        else if (_.indexOf(options.extensions.src, extension) > -1)
+          src = filepath;
+      });
+
+      if (options.src)
+        src = options.src;
+      if (options.data)
+        data =options.data;
+
+      // grunt.log.writeln(util.inspect(f));
+
       // Validate file accessibility, seprate csv from tpl
-      f.src.filter(function(filepath) {
+      [src, data].filter(function(filepath) {
+        grunt.log.writeln(filepath);
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
@@ -56,32 +102,29 @@ module.exports = function(grunt) {
         } else {
           return true;
         }
-      }).map(function(filepath) {
-        if (filepath.indexOf("csv") > -1){      
-          pathData = filepath;
-        }
-        else if (filepath.indexOf("mustache") > -1 || filepath.indexOf("tpl") > -1){
-          pathSource = grunt.file.read(filepath);
-        }
       });
 
-      csv.parse(grunt.file.read(pathData), function(err, rows){
-        
+      data = grunt.file.read(data); 
+      src = grunt.file.read(src);
+
+      csv.parse(data, options.csv, function(err, rows){
+
         var headers = rows.splice(0, 1)[0]
           , row
           ;
 
         // loop through csv file and compile html
         for(var i=0,l=rows.length;i<l;i++){
-          row = headers.toObject(rows[i]);
+          row = _.object(headers, rows[i]);
           // Any column with json prefix will be parsed as JSON
           for (var key in row){
             if(/^json_/.test(key)){
               row[key.replace('json_','')] = JSON.parse(row[key]);
             }
           }
-          template = Handlebars.compile(pathSource);
-          html += template(row);
+          output = Handlebars.compile(src);
+
+          html += output(row);
         }
 
         // Write the destination file.
