@@ -20,8 +20,8 @@
 var mustache   = require('mustache')
   , Handlebars = require('handlebars')
   , _          = require('underscore')
-  , util       = require('util') // TODO: remove for production
   , csv        = require('csv')
+  , markdown   = require('markdown').markdown
   ;
 
 module.exports = function(grunt) {
@@ -60,8 +60,6 @@ module.exports = function(grunt) {
         var k = Object.keys(element).toString()
           , v = element[k]
           ;
-        grunt.log.writeln('k ', k);
-        grunt.log.writeln('v ', v);
         Handlebars.registerHelper(k, v);
       });
     }
@@ -92,8 +90,6 @@ module.exports = function(grunt) {
       if (options.data)
         data =options.data;
 
-      grunt.log.writeln(util.inspect([tpl, data]));
-
       // Validate file accessibility, seprate csv from tpl
       [tpl, data].filter(function(filepath) {
         grunt.log.writeln(filepath);
@@ -122,6 +118,9 @@ module.exports = function(grunt) {
           for (var key in row){
             if(/^json_/.test(key)){
               row[key.replace('json_','')] = JSON.parse(row[key]);
+            }
+            if(/^markdown_/.test(key)){
+              row[key.replace('markdown_','')] = markdown.toHTML(row[key]);
             }
           }
           output = Handlebars.compile(tpl);

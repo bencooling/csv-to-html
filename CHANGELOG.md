@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4.0
+-----
+
+* Added markdown support
+
 0.3.0
 -----
 

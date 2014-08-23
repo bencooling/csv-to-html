@@ -20,6 +20,10 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 ### Overview
 This grunt plugin provides a simple task to compile a HTML file from a data source (csv file) and a template (mustache/handlebars file).
 
+Why csv? Spreadsheets are understood by most non technical minded users who might be supplying content for a web project. 
+
+The csv file can have two special data formats: json and markdown. To include these formats, have the columns prefixed with `json_` or `markdown_`. JSON data can represent arrays and objects which can be used in template sections, while markdown allows formatted copy to be inserted into templates.
+
 In your project's Gruntfile, add a section named `csv_to_html` to the data object passed into `grunt.initConfig()`.
 
     grunt.initConfig({
@@ -31,8 +35,6 @@ In your project's Gruntfile, add a section named `csv_to_html` to the data objec
         },
       },
     });
-
-Why csv? Spreadsheets are understood by most non technical minded users who might be supplying content for a web project.
 
 ### Options
 
@@ -113,7 +115,7 @@ If your template or data source files have an extension that is not included by 
 
     // Our template files have a .myStangeExtension
     extensions : {
-      tpl: [myStrangeExtension"]
+      tpl: ["myStrangeExtension"]
     }
 
 #### Examples
@@ -123,7 +125,7 @@ If your template or data source files have an extension that is not included by 
     csv_to_html: {
       example: {
         options : {
-        , registerHelpers:[{ 'lower':function(str){ return str.toLowerCase(); }}
+          registerHelpers:[{ 'lower':function(str){ return str.toLowerCase(); }}
                          , { 'upper':function(str){ return str.toUpperCase(); }}]
         }
         , files: {
@@ -145,6 +147,7 @@ See: [Changelog](https://github.com/bencooling/csv-to-html/blob/master/CHANGELOG
 
 ## Release History
 
-* 0.3.0 Added handlebars support
+* 0.4.0 Added markdown support
+* 0.3.0 Added handlebars, json support, fixed async bug; refactored options object 
 * 0.2.0 Added dependencies
 * 0.1.0 Initial release

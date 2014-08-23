@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     csv_to_html: {
       example: {
         options : {
-        , registerHelpers:[{ 'lower':function(str){ return str.toLowerCase(); }}
+          registerHelpers:[{ 'lower':function(str){ return str.toLowerCase(); }}
                          , { 'upper':function(str){ return str.toUpperCase(); }}]
         }
         , files: {
