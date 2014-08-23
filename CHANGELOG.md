@@ -6,6 +6,7 @@ Changelog
 
 * Added handlebars support
 * Fixed async bug
+* Added json support in csv file by parsing any column with prefix json_
 * Options object refactored:
   * Register handlebars helpers
   * Global options for src, dest & data files

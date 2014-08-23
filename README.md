@@ -32,6 +32,8 @@ In your project's Gruntfile, add a section named `csv_to_html` to the data objec
       },
     });
 
+Why csv? Spreadsheets are understood by most non technical minded users who might be supplying content for a web project.
+
 ### Options
 
 **Default options object**
@@ -136,7 +138,6 @@ For further reference of options available see: [Parser options](https://github.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
 
 ## Changelog
 
