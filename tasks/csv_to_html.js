@@ -26,9 +26,9 @@ var mustache   = require('mustache')
 
 module.exports = function(grunt) {
 
-  grunt.registerMultiTask('csv_to_html', 'Grunt plugin that takes a HTML template, csv data file & compiles HTML', function(options) {
-    var done = this.async(),
-        options = this.options({
+  grunt.registerMultiTask('csv_to_html', 'Compile HTML with csv & mustache/handlebars template', function() {
+    var done = this.async()
+      , options = this.options({
           registerHelpers: false
         , tpl: false
         , data: false
@@ -60,6 +60,8 @@ module.exports = function(grunt) {
         var k = Object.keys(element).toString()
           , v = element[k]
           ;
+        grunt.log.writeln('k ', k);
+        grunt.log.writeln('v ', v);
         Handlebars.registerHelper(k, v);
       });
     }
@@ -81,19 +83,19 @@ module.exports = function(grunt) {
         var extension = _.last(filepath.split("."));
         if (_.indexOf(options.extensions.data, extension) > -1)
           data = filepath;
-        else if (_.indexOf(options.extensions.src, extension) > -1)
-          src = filepath;
+        else if (_.indexOf(options.extensions.tpl, extension) > -1)
+          tpl = filepath;
       });
 
-      if (options.src)
-        src = options.src;
+      if (options.tpl)
+        tpl = options.tpl;
       if (options.data)
         data =options.data;
 
-      // grunt.log.writeln(util.inspect(f));
+      grunt.log.writeln(util.inspect([tpl, data]));
 
       // Validate file accessibility, seprate csv from tpl
-      [src, data].filter(function(filepath) {
+      [tpl, data].filter(function(filepath) {
         grunt.log.writeln(filepath);
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
@@ -105,7 +107,7 @@ module.exports = function(grunt) {
       });
 
       data = grunt.file.read(data); 
-      src = grunt.file.read(src);
+      tpl = grunt.file.read(tpl);
 
       csv.parse(data, options.csv, function(err, rows){
 
@@ -122,7 +124,7 @@ module.exports = function(grunt) {
               row[key.replace('json_','')] = JSON.parse(row[key]);
             }
           }
-          output = Handlebars.compile(src);
+          output = Handlebars.compile(tpl);
 
           html += output(row);
         }

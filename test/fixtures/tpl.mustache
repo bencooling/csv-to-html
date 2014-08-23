@@ -1,1 +1,6 @@
-<div id="{{id}}" class="section">{{{section}}}</div>
+<div id="{{id}}" class="section">
+  <p>{{{copy}}}</p>
+  <ul>{{#randoms}}
+  <li>{{upper .}}</li>{{/randoms}}
+  </ul>
+</div>

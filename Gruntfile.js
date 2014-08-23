@@ -31,8 +31,12 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     csv_to_html: {
       example: {
-        files: {
-          'tmp/compiled.html': ['test/fixtures/data.csv', 'test/fixtures/tpl.mustache']
+        options : {
+        , registerHelpers:[{ 'lower':function(str){ return str.toLowerCase(); }}
+                         , { 'upper':function(str){ return str.toUpperCase(); }}]
+        }
+        , files: {
+          'tmp/compiled.html': ['test/fixtures/tpl.mustache', 'test/fixtures/data-json.csv']
         }
       }
     },
