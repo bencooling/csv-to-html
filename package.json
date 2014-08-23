@@ -1,7 +1,7 @@
 {
   "name": "grunt-csv-to-html",
-  "description": "Grunt plugin that compiles HTML from a mustache template & csv data file",
-  "version": "0.2.0",
+  "description": "Grunt plugin that compiles HTML with csv and a mustache/handlebars template",
+  "version": "0.3.1",
   "homepage": "https://github.com/bencooling/csv-to-html",
   "author": {
     "name": "Ben Cooling",
