@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+* Fixed issue with multiple targets
+
 0.4.0
 -----
 
@@ -19,9 +24,10 @@ Changelog
 
 0.2.0
 -----
-Added dependencies
 
+* Added dependencies
 
 0.1.0 
 -----
-Initial release
+
+* Initial release

@@ -147,6 +147,7 @@ See: [Changelog](https://github.com/bencooling/csv-to-html/blob/master/CHANGELOG
 
 ## Release History
 
+* 0.5.0 Fixed issue with multiple targets
 * 0.4.0 Added markdown support
 * 0.3.0 Added handlebars, json support, fixed async bug; refactored options object 
 * 0.2.0 Added dependencies
