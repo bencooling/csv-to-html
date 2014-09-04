@@ -28,6 +28,8 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('csv_to_html', 'Compile HTML with csv & mustache/handlebars template', function() {
     var done = this.async()
+      , fi = 1
+      , fl = this.files.length
       , options = this.options({
           registerHelpers: false
         , tpl: false
@@ -134,7 +136,10 @@ module.exports = function(grunt) {
         // Print a success message.
         grunt.log.writeln('File "' + f.dest + '" created.');
 
-        done();
+        if (fi===fl)
+          done();
+        else
+          fi++;
 
       });
 

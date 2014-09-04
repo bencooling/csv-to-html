@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.6.0
+-----
+
+* Fix for async bug
+* Fix for nodeunit test
+
 0.5.0
 -----
 
